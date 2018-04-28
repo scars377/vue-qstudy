@@ -1,6 +1,7 @@
 <template>
   <div>
     <Slider :images="images" width="100%"/>
+    <Countdown :endTime="endTime"/>
     <ProductList :products="products"/>
   </div>
 </template>
@@ -10,6 +11,7 @@ import axios from 'axios';
 import Menu from './components/Menu';
 import ProductList from './components/ProductList';
 import Slider from './components/Slider';
+import Countdown from './components/Countdown';
 
 import image1 from './assets/29D1CE5B-38F5-417E-9FFE-648D67706E0B.jpg';
 import image2 from './assets/B3A21FA7-B481-4D50-9834-C33A055C04FB.jpg';
@@ -21,10 +23,12 @@ export default {
     Menu,
     ProductList,
     Slider,
+    Countdown,
   },
   data() {
     return {
       products: [],
+      endTime: new Date('2018-05-15T00:00:00').getTime(),
       images: [
         image1,
         image2,

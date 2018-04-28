@@ -58,6 +58,15 @@ export default {
         backgroundImage: `url('https://assets-17app.akamaized.net/THUMBNAIL_${img}')`,
       };
     },
+    onResize() {
+    },
+  },
+  mounted() {
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize);
   },
 };
 </script>
