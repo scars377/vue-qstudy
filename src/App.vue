@@ -2,21 +2,14 @@
   <div>
     <h1>{{count}}</h1>
     <button @click="add">+{{step}}</button>
+    <ProductList/>
     <Slider :images="images"/>
-    <Slider
-      :images="[
-        'http://cutecatshq.com/wp-content/uploads/2013/04/This-is-a-chimera-cat-who-is-its-own-fraternal-twin.-When-two-fertilized-eggs-fuse-together....Is-this-real-I-think-it-seems-fake....jpg',
-        'http://images.viralnova.com/000/146/631/desktop-1426863410.jpg',
-        'http://3.bp.blogspot.com/-lOdgNABJfys/UxDn2nePomI/AAAAAAAAEGY/NSVuMdsO5Ng/s1600/c13.jpg'
-      ]"
-      width="400px"
-      height="400px"
-    />
   </div>
 </template>
 
 <script>
 import Menu from './components/Menu';
+import ProductList from './components/ProductList';
 import Slider from './components/Slider';
 
 import image1 from './assets/29D1CE5B-38F5-417E-9FFE-648D67706E0B.jpg';
@@ -26,6 +19,7 @@ import image3 from './assets/C020BF0E-DA4A-4B26-A42E-CFF1A6090CD6.jpg';
 export default {
   components: {
     Menu,
+    ProductList,
     Slider,
   },
   data() {
