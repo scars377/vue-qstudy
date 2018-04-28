@@ -94,6 +94,7 @@ export default{
 <style>
 .slider{
   width: 600px;
+  margin: 0 auto;
 }
 .container{
   width: 100%;
