@@ -45,7 +45,7 @@ const range = [
 const MAX_COUNT = 20;
 
 export default {
-  props: ['url', 'pagenition', 'addToCart'],
+  props: ['url', 'pagenition'],
   components: {
     Pagenition,
   },
@@ -69,6 +69,9 @@ export default {
     },
   },
   methods: {
+    addToCart(product) {
+      return this.$store.commit('addToCart', product);
+    },
     imgStyle(img) {
       return {
         backgroundImage: `url('https://assets-17app.akamaized.net/THUMBNAIL_${img}')`,

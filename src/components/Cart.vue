@@ -9,8 +9,10 @@
 
 <script>
 export default {
-  props: ['cart'],
   computed: {
+    cart() {
+      return this.$store.state.cart;
+    },
     count() {
       return this.cart.length;
     },
