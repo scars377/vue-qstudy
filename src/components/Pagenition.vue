@@ -1,13 +1,13 @@
 <template>
   <div class='pages'>
-    <button
+    <router-link
       v-for="page in pages"
-      :class="btnClass(page)"
-      @click="setPage(page)"
+      :to="pageLink(page)"
       :key="page"
+      :class="linkClass(page)"
     >
       {{page}}
-    </button>
+    </router-link>
   </div>
 </template>
 
@@ -15,10 +15,13 @@
 const MAX_PAGES = 5;
 
 export default {
-  props: ['numPages', 'value'],
+  props: ['numPages'],
   computed: {
+    page() {
+      return parseInt(this.$route.params.page, 10) || 1;
+    },
     pages() {
-      let start = this.value - parseInt(MAX_PAGES / 2, 10);
+      let start = this.page - parseInt(MAX_PAGES / 2, 10);
       if (start < 1) start = 1;
       if (start + (MAX_PAGES - 1) > this.numPages) {
         start = this.numPages - (MAX_PAGES - 1);
@@ -32,21 +35,18 @@ export default {
     },
   },
   methods: {
-    setPage(page) {
-      this.$emit('input', page);
+    pageLink(page) {
+      return `/products/${page}`;
     },
-    btnClass(page) {
-      return {
-        btn: true,
-        active: page === this.value,
-      };
+    linkClass(page) {
+      return page === this.page ? 'router-link-active' : '';
     },
   },
 };
 </script>
 
 <style scoped>
-.btn.active{
+.router-link-active{
   color: red;
 }
 </style>

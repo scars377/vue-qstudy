@@ -13,7 +13,6 @@
     <Pagenition
       v-if="pagenition"
       :numPages="numPages"
-      v-model="page"
     />
     <div class="product-list">
       <div
@@ -45,7 +44,7 @@ const range = [
 const MAX_COUNT = 20;
 
 export default {
-  props: ['url', 'pagenition'],
+  props: ['url', 'pagenition', 'params'],
   components: {
     Pagenition,
   },
@@ -61,17 +60,11 @@ export default {
     };
   },
   computed: {
-    page: {
-      get() {
-        return parseInt(this.startFrom / MAX_COUNT, 10) + 1;
-      },
-      set(page) {
-        this.startFrom = MAX_COUNT * (page - 1);
-        this.getProducts();
-      },
-    },
     numPages() {
       return Math.ceil(this.total / MAX_COUNT);
+    },
+    page() {
+      return parseInt(this.$route.params.page, 10) || 1;
     },
   },
   methods: {
@@ -84,13 +77,15 @@ export default {
       if (this.loading) return;
 
       this.loading = true;
-      axios.get(this.url, { params: {
-        filter: this.filter,
-        startFrom: this.startFrom,
-        maxCount: MAX_COUNT,
-        min: this.selectedRange.min,
-        max: this.selectedRange.max,
-      } })
+      axios.get(this.url, {
+        params: {
+          filter: this.filter,
+          startFrom: this.startFrom,
+          maxCount: MAX_COUNT,
+          min: this.selectedRange.min,
+          max: this.selectedRange.max,
+        },
+      })
         .then(response => response.data)
         .then((data) => {
           if (this.pagenition) {
@@ -125,6 +120,10 @@ export default {
       this.startFrom = 0;
       this.products = [];
       this.$nextTick(this.onScroll);
+    },
+    page(page) {
+      this.startFrom = MAX_COUNT * (page - 1);
+      this.getProducts();
     },
   },
   mounted() {

@@ -1,0 +1,10 @@
+<template>
+  <div>
+    <label>Username</label>
+    <input/>
+    <br/>
+    <label>Password</label>
+    <input/>
+    <br/>
+  </div>
+</template>

@@ -2,16 +2,21 @@
   <div>
     <Slider :images="images" width="100%"/>
     <Countdown :endTime="endTime"/>
-    <ProductList
-      url="/api/products"
-      :pagenition="true"
-    />
+    <div class="container">
+      <div class="menu">
+        <Sidebar/>
+      </div>
+      <div class="content">
+        <router-view/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Menu from './components/Menu';
+import Sidebar from './components/Sidebar';
 import ProductList from './components/ProductList';
+import Member from './components/Member';
 import Slider from './components/Slider';
 import Countdown from './components/Countdown';
 
@@ -22,10 +27,11 @@ import image3 from './assets/C020BF0E-DA4A-4B26-A42E-CFF1A6090CD6.jpg';
 
 export default {
   components: {
-    Menu,
+    Sidebar,
     ProductList,
     Slider,
     Countdown,
+    Member,
   },
   data() {
     return {
@@ -47,9 +53,21 @@ export default {
 
 </script>
 
-
 <style scoped>
 h1{
   color: blue;
+}
+.container{
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+}
+.menu{
+  flex: 0 0 200px;
+  height: 100%;
+  background: #cde;
+}
+.content{
+  margin: 12px;
 }
 </style>

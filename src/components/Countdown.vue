@@ -25,7 +25,7 @@ export default {
 
 <style scoped>
 .countdown{
-  text-align: center;
+  text-align:  center;
   font-size: 2em;
   margin: 1em 0;
 }
