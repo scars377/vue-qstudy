@@ -2,7 +2,10 @@
   <div>
     <Slider :images="images" width="100%"/>
     <Countdown :endTime="endTime"/>
-    <ProductList url="/api/products"/>
+    <ProductList
+      url="/api/products"
+      :pagenition="true"
+    />
   </div>
 </template>
 

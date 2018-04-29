@@ -10,6 +10,11 @@
         {{item.label}}
       </option>
     </select>
+    <Pagenition
+      v-if="pagenition"
+      :numPages="numPages"
+      v-model="page"
+    />
     <div class="product-list">
       <div
         class="product"
@@ -26,18 +31,24 @@
 
 <script>
 import axios from 'axios';
+import Pagenition from './Pagenition';
 
 const range = [
   { label: '不限', max: 10000000, min: 0 },
-  { label: '100 萬以上', max: Number.MAX_VALUE, min: 1000000 },
+  { label: '100 萬以上', max: 10000000, min: 1000000 },
   { label: '50 萬 - 100 萬', max: 1000000, min: 500000 },
   { label: '5 萬 - 50 萬', max: 500000, min: 50000 },
   { label: '5000 - 5 萬', max: 50000, min: 5000 },
   { label: '5000 以下', max: 5000, min: 0 },
 ];
 
+const MAX_COUNT = 20;
+
 export default {
-  props: ['url'],
+  props: ['url', 'pagenition'],
+  components: {
+    Pagenition,
+  },
   data() {
     return {
       loading: false,
@@ -46,7 +57,22 @@ export default {
       selectedRange: range[0],
       range,
       startFrom: 0,
+      total: 0,
     };
+  },
+  computed: {
+    page: {
+      get() {
+        return parseInt(this.startFrom / MAX_COUNT, 10) + 1;
+      },
+      set(page) {
+        this.startFrom = MAX_COUNT * (page - 1);
+        this.getProducts();
+      },
+    },
+    numPages() {
+      return Math.ceil(this.total / MAX_COUNT);
+    },
   },
   methods: {
     imgStyle(img) {
@@ -61,22 +87,29 @@ export default {
       axios.get(this.url, { params: {
         filter: this.filter,
         startFrom: this.startFrom,
-        maxCount: 10,
+        maxCount: MAX_COUNT,
         min: this.selectedRange.min,
         max: this.selectedRange.max,
       } })
         .then(response => response.data)
         .then((data) => {
-          this.products = this.products.concat(data.data);
-          this.startFrom += data.data.length;
+          if (this.pagenition) {
+            this.products = data.data;
+            this.total = data.total;
+          } else {
+            this.products = this.products.concat(data.data);
+            this.startFrom += data.data.length;
+            this.onScroll();
+          }
           this.loading = false;
-          this.onScroll();
         });
     },
     onScroll() {
       if (
-        window.scrollY + window.innerHeight >
-        document.body.scrollHeight - 200
+        !this.pagenition && (
+          window.scrollY + window.innerHeight >
+          document.body.scrollHeight - 200
+        )
       ) {
         this.getProducts();
       }
@@ -96,7 +129,7 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.onScroll);
-    this.onScroll();
+    this.getProducts();
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll);
