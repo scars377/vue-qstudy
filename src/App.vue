@@ -2,12 +2,11 @@
   <div>
     <Slider :images="images" width="100%"/>
     <Countdown :endTime="endTime"/>
-    <ProductList :products="products"/>
+    <ProductList url="/api/products"/>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 import Menu from './components/Menu';
 import ProductList from './components/ProductList';
 import Slider from './components/Slider';
@@ -27,7 +26,6 @@ export default {
   },
   data() {
     return {
-      products: [],
       endTime: new Date('2018-05-15T00:00:00').getTime(),
       images: [
         image1,
@@ -41,13 +39,6 @@ export default {
       this.count += this.step;
       this.step += 1;
     },
-  },
-  mounted() {
-    axios.get('https://webcdn.17app.co/campaign/1804-tw-full-of-you-5-s2.json')
-      .then(response => response.data)
-      .then((data) => {
-        this.products = data['streamers-honey'].slice(0, 100);
-      });
   },
 };
 

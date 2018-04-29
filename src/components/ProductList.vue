@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 const range = [
   { label: '不限', max: Number.MAX_VALUE, min: 0 },
   { label: '100 萬以上', max: Number.MAX_VALUE, min: 1000000 },
@@ -35,9 +37,10 @@ const range = [
 ];
 
 export default {
-  props: ['products'],
+  props: ['url'],
   data() {
     return {
+      products: [],
       filter: '',
       selectedRange: range[0],
       range,
@@ -64,6 +67,12 @@ export default {
   mounted() {
     window.addEventListener('resize', this.onResize);
     this.onResize();
+
+    axios.get(this.url)
+      .then(response => response.data)
+      .then((data) => {
+        this.products = data.data;
+      });
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize);
