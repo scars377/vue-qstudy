@@ -13,7 +13,7 @@
     <div class="product-list">
       <div
         class="product"
-        v-for="(product,index) in filteredProducts"
+        v-for="(product,index) in products"
         :key="index"
       >
         <div class="product-img" :style="imgStyle(product.picture)" />
@@ -28,7 +28,7 @@
 import axios from 'axios';
 
 const range = [
-  { label: '不限', max: Number.MAX_VALUE, min: 0 },
+  { label: '不限', max: 10000000, min: 0 },
   { label: '100 萬以上', max: Number.MAX_VALUE, min: 1000000 },
   { label: '50 萬 - 100 萬', max: 1000000, min: 500000 },
   { label: '5 萬 - 50 萬', max: 500000, min: 50000 },
@@ -40,20 +40,13 @@ export default {
   props: ['url'],
   data() {
     return {
+      loading: false,
       products: [],
       filter: '',
       selectedRange: range[0],
       range,
+      startFrom: 0,
     };
-  },
-  computed: {
-    filteredProducts() {
-      return this.products.filter(product => (
-        product.openID.includes(this.filter) &&
-        product.score >= this.selectedRange.min &&
-        product.score < this.selectedRange.max
-      ));
-    },
   },
   methods: {
     imgStyle(img) {
@@ -61,21 +54,52 @@ export default {
         backgroundImage: `url('https://assets-17app.akamaized.net/THUMBNAIL_${img}')`,
       };
     },
-    onResize() {
+    getProducts() {
+      if (this.loading) return;
+
+      this.loading = true;
+      axios.get(this.url, { params: {
+        filter: this.filter,
+        startFrom: this.startFrom,
+        maxCount: 10,
+        min: this.selectedRange.min,
+        max: this.selectedRange.max,
+      } })
+        .then(response => response.data)
+        .then((data) => {
+          this.products = this.products.concat(data.data);
+          this.startFrom += data.data.length;
+          this.loading = false;
+          this.onScroll();
+        });
+    },
+    onScroll() {
+      if (
+        window.scrollY + window.innerHeight >
+        document.body.scrollHeight - 200
+      ) {
+        this.getProducts();
+      }
+    },
+  },
+  watch: {
+    filter() {
+      this.startFrom = 0;
+      this.products = [];
+      this.$nextTick(this.onScroll);
+    },
+    selectedRange() {
+      this.startFrom = 0;
+      this.products = [];
+      this.$nextTick(this.onScroll);
     },
   },
   mounted() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
-
-    axios.get(this.url)
-      .then(response => response.data)
-      .then((data) => {
-        this.products = data.data;
-      });
+    window.addEventListener('scroll', this.onScroll);
+    this.onScroll();
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('scroll', this.onScroll);
   },
 };
 </script>
@@ -89,7 +113,7 @@ img{
   flex-flow: row wrap;
 }
 .product{
-  flex: 1 1 120px;
+  flex: 0 1 120px;
   max-width: 200px;
   height: 160px;
   border: 1px solid #ddd;
