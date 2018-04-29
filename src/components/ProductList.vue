@@ -19,6 +19,7 @@
         class="product"
         v-for="(product,index) in products"
         :key="index"
+        @click="addToCart(product)"
       >
         <div class="product-img" :style="imgStyle(product.picture)" />
         <div class="product-name">{{product.openID}}</div>
@@ -44,7 +45,7 @@ const range = [
 const MAX_COUNT = 20;
 
 export default {
-  props: ['url', 'pagenition', 'params'],
+  props: ['url', 'pagenition', 'addToCart'],
   components: {
     Pagenition,
   },

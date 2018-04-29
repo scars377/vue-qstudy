@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Cart :cart="cart"/>
     <Slider :images="images" width="100%"/>
     <Countdown :endTime="endTime"/>
     <div class="container">
@@ -7,7 +8,9 @@
         <Sidebar/>
       </div>
       <div class="content">
-        <router-view/>
+        <router-view
+          :addToCart="addToCart"
+        />
       </div>
     </div>
   </div>
@@ -19,6 +22,7 @@ import ProductList from './components/ProductList';
 import Member from './components/Member';
 import Slider from './components/Slider';
 import Countdown from './components/Countdown';
+import Cart from './components/Cart';
 
 import image1 from './assets/29D1CE5B-38F5-417E-9FFE-648D67706E0B.jpg';
 import image2 from './assets/B3A21FA7-B481-4D50-9834-C33A055C04FB.jpg';
@@ -32,6 +36,7 @@ export default {
     Slider,
     Countdown,
     Member,
+    Cart,
   },
   data() {
     return {
@@ -41,12 +46,16 @@ export default {
         image2,
         image3,
       ],
+      cart: [],
     };
   },
   methods: {
     add() {
       this.count += this.step;
       this.step += 1;
+    },
+    addToCart(item) {
+      this.cart = this.cart.concat(item);
     },
   },
 };

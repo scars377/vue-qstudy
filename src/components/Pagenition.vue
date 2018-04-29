@@ -21,14 +21,16 @@ export default {
       return parseInt(this.$route.params.page, 10) || 1;
     },
     pages() {
-      let start = this.page - parseInt(MAX_PAGES / 2, 10);
+      const len = Math.min(this.numPages, MAX_PAGES);
+
+      let start = this.page - parseInt(len / 2, 10);
       if (start < 1) start = 1;
-      if (start + (MAX_PAGES - 1) > this.numPages) {
-        start = this.numPages - (MAX_PAGES - 1);
+      if (start + (len - 1) > this.numPages) {
+        start = this.numPages - (len - 1);
       }
 
       const pages = [];
-      for (let i = 0; i < MAX_PAGES; i += 1) {
+      for (let i = 0; i < len; i += 1) {
         pages.push(i + start);
       }
       return pages;
@@ -46,6 +48,15 @@ export default {
 </script>
 
 <style scoped>
+a{
+  display: inline-block;
+  color: #33f;
+  text-decoration: none;
+  padding: 4px 12px;
+}
+a:hover{
+  background: #eee;
+}
 .router-link-active{
   color: red;
 }
