@@ -3,6 +3,7 @@ import Vue from 'vue';
 
 import ProductList from './components/ProductList';
 import Member from './components/Member';
+import TicTacToe from './components/TicTacToe';
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,10 @@ export default new VueRouter({
     {
       path: '/member',
       component: Member,
+    },
+    {
+      path: '/game',
+      component: TicTacToe,
     },
   ],
 });

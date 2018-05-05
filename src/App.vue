@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Slider :images="images" width="100%"/>
+    <!-- <Slider :images="images" width="100%"/> -->
     <Countdown :endTime="endTime"/>
     <div class="container">
       <div class="menu">

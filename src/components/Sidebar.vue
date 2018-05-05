@@ -7,6 +7,9 @@
       <li>
         <router-link to="/member">Member</router-link>
       </li>
+      <li>
+        <router-link to="/game">Game</router-link>
+      </li>
     </ul>
   </div>
 </template>
