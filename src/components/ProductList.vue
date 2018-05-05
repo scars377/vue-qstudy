@@ -19,7 +19,7 @@
         class="product"
         v-for="(product,index) in products"
         :key="index"
-        @click="addToCart(product)"
+        @click="showModal(product)"
       >
         <div class="product-img" :style="imgStyle(product.picture)" />
         <div class="product-name">{{product.openID}}</div>
@@ -69,6 +69,9 @@ export default {
     },
   },
   methods: {
+    showModal(product) {
+      this.$store.commit('showModal', product);
+    },
     addToCart(product) {
       return this.$store.commit('addToCart', product);
     },

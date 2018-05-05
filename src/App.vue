@@ -9,6 +9,7 @@
       <div class="content">
         <router-view/>
       </div>
+      <Modal/>
     </div>
   </div>
 </template>
@@ -19,6 +20,7 @@ import ProductList from './components/ProductList';
 import Member from './components/Member';
 import Slider from './components/Slider';
 import Countdown from './components/Countdown';
+import Modal from './components/Modal';
 
 import image1 from './assets/29D1CE5B-38F5-417E-9FFE-648D67706E0B.jpg';
 import image2 from './assets/B3A21FA7-B481-4D50-9834-C33A055C04FB.jpg';
@@ -32,6 +34,7 @@ export default {
     Slider,
     Countdown,
     Member,
+    Modal,
   },
   data() {
     return {
