@@ -11,6 +11,8 @@ const messages = {
     game: '遊戲',
     username: '帳號',
     password: '密碼',
+    register: '註冊',
+    login: '登入',
   },
   en: {
     products: 'Product',
@@ -18,6 +20,9 @@ const messages = {
     game: 'Game',
     username: 'Username',
     password: 'Password',
+    register: 'Register',
+    login: 'Login',
+
   },
 };
 
