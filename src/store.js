@@ -16,8 +16,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     cart: [],
-    modalShow: false,
-    modalProduct: {},
+    modal: null,
   },
 
   getters: {
@@ -29,11 +28,10 @@ export default new Vuex.Store({
       // localStorage.state = JSON.stringify(state);
     },
     showModal(state, product) {
-      state.modalShow = true;
-      state.modalProduct = product;
+      state.modal = product;
     },
     closeModal(state) {
-      state.modalShow = false;
+      state.modal = null;
     },
   },
   actions: {

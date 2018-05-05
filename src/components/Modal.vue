@@ -34,17 +34,20 @@ export default {
       };
     },
     show() {
-      return this.$store.state.modalShow;
+      return this.$store.state.modal !== null;
+    },
+    modal() {
+      return this.$store.state.modal || {};
     },
     picture() {
-      const img = this.$store.state.modalProduct.picture;
+      const img = this.modal.picture;
       return `https://assets-17app.akamaized.net/THUMBNAIL_${img}`;
     },
     openID() {
-      return this.$store.state.modalProduct.openID;
+      return this.modal.openID;
     },
     score() {
-      const score = this.$store.state.modalProduct.score || 0;
+      const score = this.modal.score || 0;
       return score.toLocaleString();
     },
   },
