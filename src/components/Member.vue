@@ -1,9 +1,9 @@
 <template>
   <div>
-    <label>Username</label>
+    <label>{{$t('username')}}</label>
     <input/>
     <br/>
-    <label>Password</label>
+    <label>{{$t('password')}}</label>
     <input/>
     <br/>
     <Cart/>
